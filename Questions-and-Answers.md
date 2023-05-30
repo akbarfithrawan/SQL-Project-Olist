@@ -14,7 +14,7 @@ FROM customers;
 
 null_id|null_unique_id|null_zip_code|null_city|null_state|
 -------|--------------|-------------|---------|----------|
-0	     |0             |	0           |	0       |	0        |
+0      |0             |	0           |	0     |	0        |
 
 ````sql
 SELECT
@@ -26,9 +26,9 @@ SELECT
 FROM geolocation;
 ````
 
-null_zip_code	| null_lat |	null_lng | null_city | null_state |
---------------|----------|-----------|-----------|------------|
-0	            | 0        | 0         | 0         | 0          |
+null_zip_code|null_lat|null_lng|null_city|null_state|
+-------------|--------|--------|---------|----------|
+0	     | 0      | 0      | 0       | 0        |
 
 ````sql
 SELECT
@@ -41,9 +41,9 @@ SELECT
 FROM order_items;
 ````
 
-null_order_id | null_item_id | null_product_id | null_shipping_date | null_price | null_freight |
---------------|--------------|-----------------|--------------------|------------|--------------|
-0	            | 0	           | 0	             | 0	                | 0          |	0           |
+null_order_id|null_item_id|null_product_id|null_shipping_date|null_price|null_freight|
+-------------|------------|---------------|------------------|----------|------------|
+0	     | 0	  | 0	          | 0	             | 0        |	0    |
 
 ````sql
 SELECT
@@ -56,9 +56,9 @@ SELECT
 FROM orders;
 ````
 
-null_order_id | null_item_id | null_product_id | null_shipping_date | null_price | null_freight|
---------------|--------------|-----------------|--------------------|------------|-------------|
-0             |	0            |	0              |	0                 | 0          |	0          |
+null_order_id|null_item_id|null_product_id|null_shipping_date|null_price|null_freight|
+-------------|------------|---------------|------------------|----------|------------|
+0            |0           |0              |0                 |0         |0           |
 
 ````sql
 SELECT
@@ -70,9 +70,9 @@ SELECT
 FROM payments;
 ````
 
-null_order_id | null_sequential | null_type | null_installment | null_value |
---------------|-----------------|-----------|------------------|------------|
-0	            | 0	              | 0	        | 0	               | 0          |
+null_order_id|null_sequential|null_type|null_installment|null_value|
+-------------|---------------|---------|----------------|----------|
+0	     | 0	     | 0	 0	        | 0        |
 
 ````sql
 SELECT
@@ -81,9 +81,9 @@ SELECT
 FROM product_category_name_translation;
 ````
 
-null_name	| null_english |
-----------|--------------|
-0	        | 0            |  
+null_name|null_english|
+---------|------------|
+0        | 0          |  
 
 ````sql
 SELECT
@@ -99,11 +99,10 @@ SELECT
 FROM products;
 ````
 
-null_product_id |	null_category_name | null_name_length | null_description_length | null_photos_qty | null_weight | null_length | null_height | null_width |
-----------------|--------------------|------------------|-------------------------|-----------------|-------------|-------------|-------------|------------|
-0	              | 610	               | 610	            | 610	                    | 610           	| 2         	| 2         	| 2         	| 2          |
-
-
+null_product_id|null_category_name|null_name_length|null_description_length|null_photos_qty|null_weight|null_length|null_height|null_width|
+---------------|------------------|----------------|-----------------------|---------------|-----------|-----------|-----------|----------|
+0	       |610	          |610	           |610	                   |610            |2          |2          |2          |2         |
+ 
 ````sql
 SELECT 
 	COUNT(*) FILTER (WHERE review_id IS NULL) AS null_review_id,
@@ -116,9 +115,9 @@ SELECT
 FROM reviews;
 ````
 
-null_review_id | null_order_id | null_score | null_title | null_message | null_date | null_timestamp |
----------------|---------------|------------|------------|--------------|-----------|----------------|
-0	             | 0             |	0         |	87656      |	58247       |	0         |	0              |
+null_review_id|null_order_id|null_score|null_title|null_message|null_date|null_timestamp|
+--------------|-------------|----------|----------|------------|---------|--------------|
+0	      | 0           | 0        |87656     |58247       |0        |0             |
 
 ````sql
 SELECT
@@ -129,7 +128,7 @@ SELECT
 FROM sellers;
 ````
 
-null_id | null_zip | null_city | null_state |
---------|----------|-----------|------------|
-0	      | 0	       | 0	       | 0          |
+null_id|null_zip|null_city|null_state|
+-------|--------|---------|----------|
+0      |0	|0	  |0         |
 
