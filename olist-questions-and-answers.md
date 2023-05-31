@@ -1,162 +1,86 @@
-Data preparation
+### What are the most popular products in Olist?
 
-Find the null values in all tables:
-
-````sql
-SELECT
-	COUNT (*) FILTER (WHERE product_category_name IS NULL) AS null_name,
-	COUNT (*) FILTER (WHERE product_category_name_english IS NULL) AS null_english
-FROM category_name_translation;
-````
-
-null_name|null_english|
----------|------------|
-0        | 0          | 
-
-````sql
-SELECT
-	COUNT (*) FILTER (WHERE customer_id IS NULL) AS null_id,
-	COUNT (*) FILTER (WHERE customer_unique_id IS NULL) AS null_unique_id,
-	COUNT (*) FILTER (WHERE customer_zip_code_prefix IS NULL) AS null_zip_code,
-	COUNT (*) FILTER (WHERE customer_city IS NULL) AS null_city,
-	COUNT (*) FILTER (WHERE customer_state IS NULL) AS null_state
-FROM customers;
-````
-
-null_id|null_unique_id|null_zip_code|null_city|null_state|
--------|--------------|-------------|---------|----------|
-0      |0             |	0           |	0     |	0        |
-
-````sql
-SELECT
-	COUNT (*) FILTER (WHERE geolocation_zip_code_prefix IS NULL) AS null_zip_code,
-	COUNT (*) FILTER (WHERE geolocation_lat IS NULL) AS null_lat,
-	COUNT (*) FILTER (WHERE geolocation_lng IS NULL) AS null_lng,
-	COUNT (*) FILTER (WHERE geolocation_city IS NULL) AS null_city,
-	COUNT (*) FILTER (WHERE geolocation_state IS NULL) AS null_state
-FROM geolocation;
-````
-
-null_zip_code|null_lat|null_lng|null_city|null_state|
--------------|--------|--------|---------|----------|
-0	     | 0      | 0      | 0       | 0        |
-
-````sql
-SELECT
-	COUNT (*) FILTER (WHERE order_id IS NULL) AS null_order_id,
-	COUNT (*) FILTER (WHERE order_item_id IS NULL) AS null_item_id,
-	COUNT (*) FILTER (WHERE product_id IS NULL) AS null_product_id,
-	COUNT (*) FILTER (WHERE seller_id IS NULL) AS null_seller_id,
-	COUNT (*) FILTER (WHERE shipping_limit_date IS NULL) AS null_shipping_date,
-	COUNT (*) FILTER (WHERE price IS NULL) AS null_price,
-	COUNT (*) FILTER (WHERE freight_value IS NULL) AS null_freight
-FROM order_items;
-````
-
-null_order_id|null_item_id|null_product_id|null_seller_id|null_shipping_date|null_price|null_freight|
--------------|------------|---------------|--------------|------------------|----------|------------|
-0	     |0	          |0	          |0	         |0                 |0         |0           |
-
-````sql
-SELECT
-	COUNT (*) FILTER (WHERE order_id IS NULL) AS null_order_id,
-	COUNT (*) FILTER (WHERE customer_id IS NULL) AS null_customer_id,
-	COUNT (*) FILTER (WHERE order_status IS NULL) AS null_status,
-	COUNT (*) FILTER (WHERE order_purchase_timestamp IS NULL) AS null_timestamp,
-	COUNT (*) FILTER (WHERE order_approved_at IS NULL) AS null_approve,
-	COUNT (*) FILTER (WHERE order_delivered_carrier_date IS NULL) AS null_carrier_date,
-	COUNT (*) FILTER (WHERE order_delivered_customer_date IS NULL) AS null_customer_date,
-	COUNT (*) FILTER (WHERE order_delivered_delivery_date IS NULL) AS null_delivery_date
-FROM orders;
-````
-
-null_order_id|null_customer_id|null_status|null_timestamp|null_approve|null_carrier_date|null_customer_date|null_delivery_date|
--------------|----------------|-----------|--------------|------------|-----------------|------------------|------------------|
-0	     |0	              |0	  |0	         |160	      |1783	        |2965	           |0                 |
-
-````sql
-SELECT
-	COUNT (*) FILTER (WHERE order_id IS NULL) AS null_order_id,
-	COUNT (*) FILTER (WHERE payment_sequential IS NULL) AS null_sequential,
-	COUNT (*) FILTER (WHERE payment_type IS NULL) AS null_type,
-	COUNT (*) FILTER (WHERE payment_installment IS NULL) AS null_installment,
-	COUNT (*) FILTER (WHERE payment_value IS NULL) AS null_value
-FROM payments;
-````
-
-null_order_id|null_sequential|null_type|null_installment|null_value|
--------------|---------------|---------|----------------|----------|
-0	     | 0	     | 0       |0	        | 0        |
-
-````sql
-SELECT
-	COUNT (*) FILTER (WHERE product_id IS NULL) AS null_product_id,
-	COUNT (*) FILTER (WHERE product_category_name IS NULL) AS null_category_name,
-	COUNT (*) FILTER (WHERE product_name_length IS NULL) AS null_name_length,
-	COUNT (*) FILTER (WHERE product_description_length IS NULL) AS null_description_length,
-	COUNT (*) FILTER (WHERE product_photos_qty IS NULL) AS null_photos_qty,
-	COUNT (*) FILTER (WHERE product_weight_g IS NULL) AS null_weight,
-	COUNT (*) FILTER (WHERE product_length_cm IS NULL) AS null_length,
-	COUNT (*) FILTER (WHERE product_height_cm IS NULL) AS null_height,
-	COUNT (*) FILTER (WHERE product_width_cm IS NULL) AS null_width
-FROM products;
-````
-
-null_product_id|null_category_name|null_name_length|null_description_length|null_photos_qty|null_weight|null_length|null_height|null_width|
----------------|------------------|----------------|-----------------------|---------------|-----------|-----------|-----------|----------|
-0	       |610	          |610	           |610	                   |610            |2          |2          |2          |2         |
- 
 ````sql
 SELECT 
-	COUNT (*) FILTER (WHERE review_id IS NULL) AS null_review_id,
-	COUNT (*) FILTER (WHERE order_id IS NULL) AS null_order_id,
-	COUNT (*) FILTER (WHERE review_score IS NULL) AS null_score,
-	COUNT (*) FILTER (WHERE review_comment_title IS NULL) AS null_title,
-	COUNT (*) FILTER (WHERE review_comment_message IS NULL) AS null_message,
-	COUNT (*) FILTER (WHERE review_creation_date IS NULL) AS null_date,
-	COUNT (*) FILTER (WHERE review_answer_timestamp IS NULL) AS null_timestamp
-FROM reviews;
-````
-
-null_review_id|null_order_id|null_score|null_title|null_message|null_date|null_timestamp|
---------------|-------------|----------|----------|------------|---------|--------------|
-0	      | 0           | 0        |87656     |58247       |0        |0             |
-
-````sql
-SELECT
-	COUNT (*) FILTER (WHERE seller_id IS NULL) AS null_id,
-	COUNT (*) FILTER (WHERE seller_zip_code_prefix IS NULL) AS null_zip,
-	COUNT (*) FILTER (WHERE seller_city IS NULL) AS null_city,
-	COUNT (*) FILTER (WHERE seller_state IS NULL) AS null_state
-FROM sellers;
-````
-
-null_id|null_zip|null_city|null_state|
--------|--------|---------|----------|
-0      |0	|0	  |0         |
-
-
-
-All the missing values are timestamp values, these values are
-
-approve timestamp
-carrier delivery timestamp
-customer delivery timestamp
-Order approval follows the order purchase and usually happens within a short interval, hence missing approval timestamp can be substituted with the purchase timestamp
-
-As per observation the carrier delivery timestamp is often same as the order approval date, so we can substitute the carrier delivery date with the approval date
-
-Also it is seen that estimated delivery date is often later than the actual customer delivery date so we can easily substitute the missing customer delivery date with the estimated delivery date
-
-
-Most popular category
-````sql
-SELECT
-	product_category_name_english AS category_name,
-	COUNT(order_id) AS total_order
-FROM order_items AS o
-LEFT JOIN products USING(product_id)
-LEFT JOIN category_name_translation USING(product_category_name)
+	product_category_name_english,
+	COUNT(order_id) AS total_product
+FROM orders
+JOIN order_items USING(order_id)
+JOIN products USING(product_id)
+JOIN category_name_translation USING(product_category_name)
 GROUP BY 1
 ORDER BY 2 DESC;
 ````
+category_name|total_product|
+-------------|-------------|
+bed_bath_table| 11115
+health_beauty| 9670
+sports_leisure| 8641
+furniture_decor| 8334
+computers_accessories| 7827
+housewares| 6964
+watches_gifts| 5991
+telephony| 4545
+garden_tools| 4347
+auto| 4235
+toys| 4117
+cool_stuff| 3796
+perfumery| 3419
+baby| 3065
+electronics| 2767
+stationery| 2517
+fashion_bags_accessories| 2031
+pet_shop| 1947
+office_furniture| 1691
+consoles_games|	1137
+luggage_accessories| 1092
+construction_tools_construction| 929
+home_appliances| 771
+musical_instruments| 680
+small_appliances| 679
+home_construction| 604
+books_general_interest| 553
+food| 510
+furniture_living_room| 503
+home_confort| 434
+drinks| 379
+audio| 364
+market_place| 311
+construction_tools_lights| 304
+air_conditioning| 297
+kitchen_dining_laundry_garden_furniture| 281
+food_drink| 278
+industry_commerce_and_business| 268
+books_technical| 267
+fixed_telephony| 264
+fashion_shoes| 262
+costruction_tools_garden| 238
+home_appliances_2| 238
+agro_industry_and_commerce| 212
+art| 209
+computers| 203
+signaling_and_security| 199
+construction_tools_safety| 194
+christmas_supplies| 153
+fashion_male_clothing| 132
+fashion_underwear_beach| 131
+furniture_bedroom| 109
+costruction_tools_tools| 103
+tablets_printing_image| 83
+small_appliances_home_oven_and_coffee| 76
+cine_photo| 72
+dvds_blu_ray| 64
+books_imported |60
+fashio_female_clothing| 48
+party_supplies| 43
+diapers_and_hygiene| 39
+music| 38
+furniture_mattress_and_upholstery| 38
+flowers| 33
+home_comfort_2| 30
+fashion_sport| 30
+arts_and_craftmanship| 24
+cds_dvds_musicals| 14
+la_cuisine| 14
+fashion_childrens_clothes| 8
+security_and_services| 2
