@@ -113,7 +113,7 @@ COPY sellers
 FROM '/Users/admin/Desktop/Portfolio/Brazilian E-Commerce Public Dataset by Olist/olist_sellers_dataset.csv'
 DELIMITER ',' CSV HEADER;
 
---Find NULL values in all tables:
+--To clean the data, we need to find NULL values in all tables:
 
 SELECT
 	COUNT (*) FILTER (WHERE product_category_name IS NULL) AS null_name,
@@ -173,16 +173,16 @@ SELECT
 	COUNT (*) FILTER (WHERE order_estimated_delivery_date IS NULL) AS null_delivery_date
 FROM orders;
 
-
 null_order_id|null_customer_id|null_status|null_timestamp|null_approve|null_carrier_date|null_customer_date|null_delivery_date|
 -------------|----------------|-----------|--------------|------------|-----------------|------------------|------------------|
 0	     |0	              |0	  |0	         |160	      |1783	        |2965	           |0                 |
 
---There are 3 columns in the orders table that have missing values. After investigating, I found that missing values in the orders table is affected by order_status.
+--There are 3 columns in the orders table that have missing values. After investigating, I found that these missing values is affected by order_status.
 --When order_status is 'delivered', there are no missing values found in the table.
---When order_status is 'unavailable', 'invoiced', 'approved', 'processing', and 'cancelled', order_delivered_carrier_date and order_delivered_customer_date are NULL beacuse the orders still in the process or will not be shipped because of cancellation.
---When order_status is 'shipped', order_delivered_customer_date is NULL because the orders haven't been received by customers.
---When order_status is 'created', order_approved_at, order_delivered_carrier_date, and order_delivered_customer_date are NULL because the orders haven't been approved and shipped to customers.
+--When order_status is 'unavailable', 'invoiced', 'approved', 'processing', and 'cancelled', order_delivered_carrier_date and order_delivered_customer_date are null because the orders still in the process or will not be shipped because of cancellation.
+--When order_status is 'shipped', order_delivered_customer_date is null because the orders haven't been received by customers.
+--When order_status is 'created', order_approved_at, order_delivered_carrier_date, and order_delivered_customer_date are null because the orders haven't been approved and shipped to customers.
+--Therefore, there's no need to fill the null values in this table.
 
 SELECT
 	COUNT (*) FILTER (WHERE order_id IS NULL) AS null_order_id,
@@ -212,6 +212,56 @@ null_product_id|null_category_name|null_name_length|null_description_length|null
 ---------------|------------------|----------------|-----------------------|---------------|-----------|-----------|-----------|----------|
 0	       |610	          |610	           |610	                   |610            |2          |2          |2          |2         |
 
+--For the null values in product_category_name table, I will fill all of it with 'unknown'.
+
+UPDATE products
+SET product_category_name = 'unknown'
+WHERE product_category_name IS NULL;
+
+--For the rest of the null values, I will fill it with the mean of each column.
+
+UPDATE products
+SET product_name_length = (
+    SELECT AVG(product_name_length)
+    FROM products)
+WHERE product_name_length IS NULL;
+
+UPDATE products
+SET product_description_length = (
+    SELECT AVG(product_description_length)
+    FROM products)
+WHERE product_description_length IS NULL;
+
+UPDATE products
+SET product_photos_qty = (
+    SELECT AVG(product_photos_qty)
+    FROM products)
+WHERE product_photos_qty IS NULL;
+
+UPDATE products
+SET product_weight_g = (
+    SELECT AVG(product_weight_g)
+    FROM products)
+WHERE product_weight_g IS NULL;
+
+UPDATE products
+SET product_length_cm = (
+    SELECT AVG(product_length_cm)
+    FROM products)
+WHERE product_length_cm IS NULL;
+
+UPDATE products
+SET product_height_cm = (
+    SELECT AVG(product_height_cm)
+    FROM products)
+WHERE product_height_cm IS NULL;
+
+UPDATE products
+SET product_width_cm = (
+    SELECT AVG(product_width_cm)
+    FROM products)
+WHERE product_width_cm IS NULL;
+
 SELECT 
 	COUNT (*) FILTER (WHERE review_id IS NULL) AS null_review_id,
 	COUNT (*) FILTER (WHERE order_id IS NULL) AS null_order_id,
@@ -227,11 +277,14 @@ null_review_id|null_order_id|null_score|null_title|null_message|null_date|null_t
 0	      | 0           | 0        |87656     |58247       |0        |0             |
 
 --For the null values in review_comment_title and review_comment_message, I will fill it with 'No title' and 'No message" respectively.
+
 UPDATE reviews
-SET review_comment_title = 'No title',
-	review_comment_message = 'No message'
-WHERE review_comment_title IS NULL AND 
-      review_comment_message IS NULL;
+SET review_comment_title = 'No title'
+WHERE review_comment_title IS NULL;
+
+UPDATE reviews
+SET review_comment_message = 'No message' 
+WHERE review_comment_message IS NULL;
 
 SELECT
 	COUNT (*) FILTER (WHERE seller_id IS NULL) AS null_id,
@@ -244,8 +297,7 @@ null_id|null_zip|null_city|null_state|
 -------|--------|---------|----------|
 0      |0	|0	  |0         |
 
-
-
+--Now that the data has been cleaned, it's ready to be used for analysis!
 
 
 
