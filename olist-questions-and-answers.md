@@ -2,12 +2,12 @@
 
 ````sql
 SELECT 
-	product_category_name_english,
-	COUNT(order_id) AS total_product
-FROM orders
-JOIN order_items USING(order_id)
-JOIN products USING(product_id)
-JOIN category_name_translation USING(product_category_name)
+	cat.product_category_name_english AS category_name,
+	COUNT(o.order_id) AS total_product
+FROM orders AS o
+JOIN order_items AS oi USING(order_id)
+JOIN products AS prod USING(product_id)
+JOIN category_name_translation AS cat USING(product_category_name)
 GROUP BY 1
 ORDER BY 2 DESC;
 ````
