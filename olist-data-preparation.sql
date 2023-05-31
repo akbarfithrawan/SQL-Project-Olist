@@ -113,7 +113,7 @@ COPY sellers
 FROM '/Users/admin/Desktop/Portfolio/Brazilian E-Commerce Public Dataset by Olist/olist_sellers_dataset.csv'
 DELIMITER ',' CSV HEADER;
 
---Find the null values in all tables:
+--Find NULL values in all tables:
 
 SELECT
 	COUNT (*) FILTER (WHERE product_category_name IS NULL) AS null_name,
@@ -225,6 +225,13 @@ FROM reviews;
 null_review_id|null_order_id|null_score|null_title|null_message|null_date|null_timestamp|
 --------------|-------------|----------|----------|------------|---------|--------------|
 0	      | 0           | 0        |87656     |58247       |0        |0             |
+
+--For the null values in review_comment_title and review_comment_message, I will fill it with 'No title' and 'No message" respectively.
+UPDATE reviews
+SET review_comment_title = 'No title',
+	review_comment_message = 'No message'
+WHERE review_comment_title IS NULL AND 
+      review_comment_message IS NULL;
 
 SELECT
 	COUNT (*) FILTER (WHERE seller_id IS NULL) AS null_id,
