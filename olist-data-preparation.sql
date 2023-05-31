@@ -233,13 +233,7 @@ null_id|null_zip|null_city|null_state|
 
 
 
---All the missing values are timestamp values, these values are
-
---approve timestamp
---carrier delivery timestamp
---customer delivery timestamp
---Order approval follows the order purchase and usually happens within a short interval, hence missing approval timestamp can be substituted with the purchase timestamp
-
---As per observation the carrier delivery timestamp is often same as the order approval date, so we can substitute the carrier delivery date with the approval date
-
---Also it is seen that estimated delivery date is often later than the actual customer delivery date so we can easily substitute the missing customer delivery date with the estimated delivery date
+--In the orders table, all missing values are timestamp values, which is: order_approve_at, order_delivered_carrier_date, order_customer_delivery_date.
+--Order approval follows the order purchase and usually happens within a short interval, therefore missing order_approve_at can be substituted with the order_purchase_timestamp.
+--As per observation the carrier delivery timestamp is often same as the order approval date, so we can substitute the order_delivered_carrier_date, with the approval date.
+--Also it is seen that estimated delivery date is often later than the actual customer delivery date so we can easily substitute the missing customer delivery date with the estimated delivery date.
