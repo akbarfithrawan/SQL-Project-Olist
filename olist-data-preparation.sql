@@ -178,9 +178,8 @@ null_order_id|null_customer_id|null_status|null_timestamp|null_approve|null_carr
 -------------|----------------|-----------|--------------|------------|-----------------|------------------|------------------|
 0	     |0	              |0	  |0	         |160	      |1783	        |2965	           |0                 |
 
---There are 3 columns in the orders table that have missing values. We will investigate whether or not missing values is affected by order_status.
---After investigating, we found that missing values in the orders table is affected by order_status.
---When order_status in 'delivered', there are no missing values found in the table.
+--There are 3 columns in the orders table that have missing values. After investigating, I found that missing values in the orders table is affected by order_status.
+--When order_status is 'delivered', there are no missing values found in the table.
 --When order_status is 'unavailable', 'invoiced', 'approved', 'processing', and 'cancelled', order_delivered_carrier_date and order_delivered_customer_date are NULL beacuse the orders still in the process or will not be shipped because of cancellation.
 --When order_status is 'shipped', order_delivered_customer_date is NULL because the orders haven't been received by customers.
 --When order_status is 'created', order_approved_at, order_delivered_carrier_date, and order_delivered_customer_date are NULL because the orders haven't been approved and shipped to customers.
