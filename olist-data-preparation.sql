@@ -170,13 +170,20 @@ SELECT
 	COUNT (*) FILTER (WHERE order_approved_at IS NULL) AS null_approve,
 	COUNT (*) FILTER (WHERE order_delivered_carrier_date IS NULL) AS null_carrier_date,
 	COUNT (*) FILTER (WHERE order_delivered_customer_date IS NULL) AS null_customer_date,
-	COUNT (*) FILTER (WHERE order_delivered_delivery_date IS NULL) AS null_delivery_date
+	COUNT (*) FILTER (WHERE order_estimated_delivery_date IS NULL) AS null_delivery_date
 FROM orders;
 
 
 null_order_id|null_customer_id|null_status|null_timestamp|null_approve|null_carrier_date|null_customer_date|null_delivery_date|
 -------------|----------------|-----------|--------------|------------|-----------------|------------------|------------------|
 0	     |0	              |0	  |0	         |160	      |1783	        |2965	           |0                 |
+
+--There are 3 columns in the orders table that have missing values. We will investigate whether or not missing values is affected by order_status.
+--After investigating, we found that missing values in the orders table is affected by order_status.
+--When order_status in 'delivered', there are no missing values found in the table.
+--When order_status is 'unavailable', 'invoiced', 'approved', 'processing', and 'cancelled', order_delivered_carrier_date and order_delivered_customer_date are NULL beacuse the orders still in the process or will not be shipped because of cancellation.
+--When order_status is 'shipped', order_delivered_customer_date is NULL because the orders haven't been received by customers.
+--When order_status is 'created', order_approved_at, order_delivered_carrier_date, and order_delivered_customer_date are NULL because the orders haven't been approved and shipped to customers.
 
 SELECT
 	COUNT (*) FILTER (WHERE order_id IS NULL) AS null_order_id,
@@ -233,7 +240,7 @@ null_id|null_zip|null_city|null_state|
 
 
 
---In the orders table, all missing values are timestamp values, which is: order_approve_at, order_delivered_carrier_date, order_customer_delivery_date.
---Order approval follows the order purchase and usually happens within a short interval, therefore missing order_approve_at can be substituted with the order_purchase_timestamp.
---As per observation the carrier delivery timestamp is often same as the order approval date, so we can substitute the order_delivered_carrier_date, with the approval date.
---Also it is seen that estimated delivery date is often later than the actual customer delivery date so we can easily substitute the missing customer delivery date with the estimated delivery date.
+
+
+
+
