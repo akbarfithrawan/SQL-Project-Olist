@@ -1,3 +1,16 @@
+
+# Olist Brazilian E-commerce Sales 2016-2018
+## Questions and Answers
+
+**Author**: Akbar Rizky Fithrawan
+
+**Email**: akbar.fithrawan@gmail.com
+
+**LinkedIn**: https://www.linkedin.com/in/akbar-rizky-fithrawan-04788056/
+
+An SQL analysis about each traffic crash on city streets within the City of Chicago limits and under the jurisdiction of Chicago Police Department (CPD). Data shown as is from the electronic crash reporting system (E-Crash) at CPD, excluding any personally identifiable information.
+
+
 ### What are the most popular products in Olist?
 
 ````sql
@@ -11,6 +24,7 @@ JOIN category_name_translation AS cat USING(product_category_name)
 GROUP BY 1
 ORDER BY 2 DESC;
 ````
+**Results:**
 category_name|total_product|
 -------------|-------------|
 bed_bath_table| 11115
@@ -84,3 +98,9 @@ cds_dvds_musicals| 14
 la_cuisine| 14
 fashion_childrens_clothes| 8
 security_and_services| 2
+
+# What is the total count of recorded crashes in the complete dataset?
+# What is the number of order per year?
+# What is the total count of order by order status?
+# What about delay in delivery?
+# What is the number order by days of the week?
