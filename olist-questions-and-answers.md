@@ -22,8 +22,8 @@ JOIN order_items AS oi USING(order_id)
 JOIN products AS prod USING(product_id)
 JOIN category_name_translation AS cat USING(product_category_name)
 WHERE o.order_status NOT IN ('canceled' , 'unavailable')
-GROUP BY 1
-ORDER BY 2 DESC
+GROUP BY category_name
+ORDER BY total_product DESC
 LIMIT 10;
 ````
 **Results:**
