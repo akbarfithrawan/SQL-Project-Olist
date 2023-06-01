@@ -46,8 +46,8 @@ SELECT
 	EXTRACT('year' FROM order_purchase_timestamp) AS year,
 	COUNT(*) AS total_order
 FROM orders
-GROUP BY 1
-ORDER BY 1;
+GROUP BY year
+ORDER BY year;
 ````
 **Results:**
 year|	total_order
@@ -62,8 +62,8 @@ SELECT
 	DISTINCT order_status,
 	COUNT(*) AS total_order
 FROM orders
-GROUP BY 1
-ORDER BY 2 DESC;
+GROUP BY order_status
+ORDER BY total_order DESC;
 ````
 **Results:**
 order_status| total_order
@@ -254,7 +254,25 @@ delay_days |total_order
 109	|1
 68	|1
 
-
+### What are the 5 top cities with highest number of order?
+````sql
+SELECT 
+	c.customer_city,
+	COUNT(o.order_id) AS total_order
+FROM orders AS o
+JOIN customers AS c USING(customer_id)
+GROUP BY customer_city
+ORDER BY 2 DESC
+LIMIT 5;
+````
+**Results:**
+customer_city  | total_order
+---------------|-------------
+sao paulo      |15540
+rio de janeiro |6882
+belo horizonte |2773
+brasilia       |2131
+curitiba       |1521
 
 
 
