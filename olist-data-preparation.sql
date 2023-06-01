@@ -1,3 +1,5 @@
+-- First, we need to create each table in the database and import csv files into the tables.
+
 CREATE TABLE category_name_translation (
 	product_category_name varchar(50),
 	product_category_name_english varchar(50)
@@ -113,7 +115,7 @@ COPY sellers
 FROM '/Users/admin/Desktop/Portfolio/Brazilian E-Commerce Public Dataset by Olist/olist_sellers_dataset.csv'
 DELIMITER ',' CSV HEADER;
 
---To clean the data, we need to find NULL values in all tables:
+-- After that, we need to clean the data by finding NULL values in all tables and fill it with appropriate values.
 
 SELECT
 	COUNT (*) FILTER (WHERE product_category_name IS NULL) AS null_name,
@@ -177,12 +179,12 @@ null_order_id|null_customer_id|null_status|null_timestamp|null_approve|null_carr
 -------------|----------------|-----------|--------------|------------|-----------------|------------------|------------------|
 0	     |0	              |0	  |0	         |160	      |1783	        |2965	           |0                 |
 
---There are 3 columns in the orders table that have missing values. After investigating, I found that these missing values is affected by order_status.
---When order_status is 'delivered', there are no missing values found in the table.
---When order_status is 'unavailable', 'invoiced', 'approved', 'processing', and 'cancelled', order_delivered_carrier_date and order_delivered_customer_date are null because the orders still in the process or will not be shipped because of cancellation.
---When order_status is 'shipped', order_delivered_customer_date is null because the orders haven't been received by customers.
---When order_status is 'created', order_approved_at, order_delivered_carrier_date, and order_delivered_customer_date are null because the orders haven't been approved and shipped to customers.
---Therefore, there's no need to fill the null values in this table.
+-- There are 3 columns in the orders table that have missing values. After investigating, I found that these missing values is affected by order_status.
+-- When order_status is 'delivered', there are no missing values found in the table.
+-- When order_status is 'unavailable', 'invoiced', 'approved', 'processing', and 'cancelled', order_delivered_carrier_date and order_delivered_customer_date are null because the orders still in the process or will not be shipped because of cancellation.
+-- When order_status is 'shipped', order_delivered_customer_date is null because the orders haven't been received by customers.
+-- When order_status is 'created', order_approved_at, order_delivered_carrier_date, and order_delivered_customer_date are null because the orders haven't been approved and shipped to customers.
+-- Therefore, there's no need to fill the null values in this table.
 
 SELECT
 	COUNT (*) FILTER (WHERE order_id IS NULL) AS null_order_id,
@@ -212,13 +214,13 @@ null_product_id|null_category_name|null_name_length|null_description_length|null
 ---------------|------------------|----------------|-----------------------|---------------|-----------|-----------|-----------|----------|
 0	       |610	          |610	           |610	                   |610            |2          |2          |2          |2         |
 
---For the null values in product_category_name table, I will fill all of it with 'unknown'.
+-- For the null values in product_category_name table, I will fill all of it with 'unknown'.
 
 UPDATE products
 SET product_category_name = 'unknown'
 WHERE product_category_name IS NULL;
 
---For the rest of the null values, I will fill it with the mean of each column.
+-- For the rest of the null values, I will fill it with the mean of each column.
 
 UPDATE products
 SET product_name_length = (
@@ -276,7 +278,7 @@ null_review_id|null_order_id|null_score|null_title|null_message|null_date|null_t
 --------------|-------------|----------|----------|------------|---------|--------------|
 0	      | 0           | 0        |87656     |58247       |0        |0             |
 
---For the null values in review_comment_title and review_comment_message, I will fill it with 'No title' and 'No message" respectively.
+-- For the null values in review_comment_title and review_comment_message, I will fill it with 'No title' and 'No message" respectively.
 
 UPDATE reviews
 SET review_comment_title = 'No title'
@@ -297,7 +299,7 @@ null_id|null_zip|null_city|null_state|
 -------|--------|---------|----------|
 0      |0	|0	  |0         |
 
---Now that the data has been cleaned, it's ready to be used for analysis!
+-- Now that the data has been cleaned, we're ready to use it for our analysis!
 
 
 
