@@ -80,42 +80,43 @@ approved    | 2
 ### What is the total customer by state?
 ````sql
 SELECT 
-	customer_state,
-	COUNT(DISTINCT customer_unique_id) AS total_customer
-FROM customers
+	c.customer_state,
+	COUNT(DISTINCT o.customer_id) AS total_customer
+FROM orders AS o
+JOIN customers AS c USING(customer_id)
 GROUP BY customer_state
 ORDER BY total_customer DESC;
 ````
 **Results:**
 customer_state|total_customer
 --------------|--------------
-SP            |40302
-RJ            |12384
-MG            |11259
-RS            |5277
-PR            |4882
-SC            |3534
-BA            |3277
-DF            |2075
-ES            |1964
-GO            |1952
+SP            |41746
+RJ            |12852
+MG            |11635
+RS            |5466
+PR            |5045
+SC            |3637
+BA            |3380
+DF            |2140
+ES            |2020
+GO            |1652
 PE            |1609
-CE            |1313
-PA            |949
-MT            |876
-MA            |726
-MS            |694
-PB            |519
-PI            |482
-RN            |474
-AL            |401
-SE            |342
-TO            |273
-RO            |240
-AM            |143
-AC            |77
-AP            |67
-RR            |45
+CE            |1336
+PA            |975
+MT            |907
+MA            |747
+MS            |715
+PB            |536
+PI            |495
+RN            |485
+AL            |413
+SE            |350
+TO            |280
+RO            |253
+AM            |148
+AC            |81
+AP            |68
+RR            |46
 
 ### What is frequency of orders delivered by month?
 ````sql
@@ -157,6 +158,110 @@ month      |total_delivered_order
 2018-10-01 |3
 
 ### What about delay in delivery?
+````sql
+SELECT 
+	DATE(order_estimated_delivery_date) - DATE(order_delivered_customer_date) AS delay_days,
+	COUNT(order_id) AS total_order
+FROM orders
+WHERE order_delivered_customer_date IS NOT NULL
+GROUP BY delay_days
+HAVING (DATE(order_estimated_delivery_date) - DATE(order_delivered_customer_date)) > 0
+ORDER BY total_order DESC;
+````
+**Results:**
+delay_days |total_order
+-----------|-----------
+14	|7126
+13	|5963
+15	|5345
+7	|4837
+8	|4828
+10	|4646
+9	|4626
+11	|4619
+12	|4556
+16	|3903
+6	|3625
+17	|3412
+18	|3128
+20	|2960
+21	|2810
+19	|2712
+5	|2219
+4	|1917
+22	|1845
+3	|1731
+2	|1550
+1	|1462
+23	|1263
+24	|1067
+25	|913
+27	|816
+26	|793
+28	|753
+29	|492
+30	|377
+31	|304
+32	|277
+33	|261
+35	|256
+34	|247
+36	|168
+38	|96
+37	|92
+42	|83
+41	|77
+40	|64
+39	|58
+43	|56
+46	|40
+44	|40
+45	|34
+48	|31
+47	|26
+49	|22
+50	|19
+52	|15
+56	|11
+53	|10
+54	|8
+51	|8
+55	|7
+58	|6
+78	|3
+61	|3
+69	|3
+57	|2
+64	|2
+60	|2
+73	|2
+75	|2
+71	|2
+66	|2
+62	|2
+77	|1
+135	|1
+65	|1
+147	|1
+59	|1
+83	|1
+84	|1
+124	|1
+140	|1
+67	|1
+63	|1
+76	|1
+109	|1
+68	|1
+
+
+
+
+
+
+
+
+
 
 
 ### What is the number order by days of the week?
