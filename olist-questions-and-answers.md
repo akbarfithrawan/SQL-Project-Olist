@@ -88,7 +88,7 @@ ORDER BY total_customer DESC;
 ````
 **Results:**
 customer_state|total_customer
---------------|------------
+--------------|--------------
 SP            |40302
 RJ            |12384
 MG            |11259
@@ -117,6 +117,44 @@ AC            |77
 AP            |67
 RR            |45
 
+### What is frequency of orders delivered by month?
+````sql
+SELECT 
+	DATE(DATE_TRUNC('month', order_delivered_customer_date)) AS month,
+	COUNT(*) AS total_delivered_order
+FROM orders
+WHERE order_delivered_customer_date IS NOT NULL
+GROUP BY month
+ORDER BY month;
+````
+**Results:**
+month      |total_delivered_order
+-----------|------------
+2016-10-01 |208
+2016-11-01 |60
+2016-12-01 |4
+2017-01-01 |283
+2017-02-01 |1351
+2017-03-01 |2382
+2017-04-01 |1849
+2017-05-01 |3751
+2017-06-01 |3223
+2017-07-01 |3455
+2017-08-01 |4302
+2017-09-01 |3965
+2017-10-01 |4494
+2017-11-01 |4670
+2017-12-01 |7205
+2018-01-01 |6597
+2018-02-01 |5850
+2018-03-01 |6825
+2018-04-01 |7850
+2018-05-01 |7111
+2018-06-01 |6829
+2018-07-01 |5839
+2018-08-01 |8314
+2018-09-01 |56
+2018-10-01 |3
 
 ### What about delay in delivery?
 
