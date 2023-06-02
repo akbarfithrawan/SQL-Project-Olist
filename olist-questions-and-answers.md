@@ -317,8 +317,59 @@ PR	      |157.7499111498259
 MG	      |155.78080584964502
 SP	      |139.50150919934995
 
+### What is the frequency by each of payment type?
+````sql
+SELECT 
+	p.payment_type,
+	COUNT(o.order_id) AS total_order
+FROM payments AS p
+JOIN orders AS o USING(order_id)
+GROUP BY payment_type
+ORDER BY total_order DESC;
+````
+**Results:**
+payment_type| total_order
+------------|-----------
+credit_card | 76795
+boleto      | 19784
+voucher     | 5775
+debit_card  | 1529
+not_defined | 3
 
 
+### What time is the most order created at?
+````sql
+WITH order_hour AS (
+	SELECT 
+		EXTRACT('hour' FROM order_purchase_timestamp) AS hour,
+		COUNT(order_id) AS total_order
+	FROM orders
+	GROUP BY hour
+)
 
-
-### What is the number order by days of the week?
+SELECT
+	CASE WHEN hour BETWEEN 6 AND 9 THEN 'Early morning'
+		WHEN hour BETWEEN 9 AND 12 THEN 'Late morning'
+		WHEN hour BETWEEN 12 AND 15 THEN 'Early afternoon'
+		WHEN hour BETWEEN 15 AND 18 THEN 'Late afternoon'
+		WHEN hour BETWEEN 18 AND 21 THEN 'Evening'
+		WHEN hour BETWEEN 21 AND 24 THEN 'Late evening'
+		WHEN hour BETWEEN 0 AND 3 THEN 'Night'
+		WHEN hour BETWEEN 3 AND 6 THEN 'Toward morning'
+		END AS hour_group,
+	SUM(total_order) AS total
+FROM order_hour
+GROUP BY hour_group
+ORDER BY total DESC;
+````
+**Results:**
+hour_group      | total
+----------------|-------
+Early afternoon | 19541
+Late morning    | 18750
+Late afternoon  | 18594
+Evening         | 18392
+Late evening    | 9939
+Early morning   | 9485
+Night           | 4346
+Toward morning  | 394
