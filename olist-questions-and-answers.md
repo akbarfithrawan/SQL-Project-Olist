@@ -275,9 +275,47 @@ brasilia       |2131
 curitiba       |1521
 
 ### What is the average customer order price by state?
+````sql
+SELECT 
+	cust.customer_state,
+	AVG(oi.order_item_id * oi.price + oi.freight_value) AS avg_price
+FROM customers AS cust
+JOIN orders AS o USING(customer_id)
+JOIN order_items AS oi USING(order_id)
+GROUP BY cust.customer_state
+ORDER BY avg_price DESC;
+````
 
-
-
+**Results:**
+customer_state| avg_price
+--------------|-----------
+PB            |254.9220265780731
+AC	      |235.44010869565224
+AL	      |230.23581081081076
+AP	      |224.04231707317075
+PI	      |219.86848708487068
+RO	      |216.66420863309347
+PA	      |216.15749074074085
+RR	      |210.93134615384616
+TO	      |207.6947301587301
+CE	      |206.1667388362647
+SE	      |205.05420779220773
+MT	      |203.74744075829383
+RN	      |202.12102079395083
+MA	      |198.72445388349516
+PE	      |188.99063122923585
+AM	      |183.80533333333332
+MS	      |180.05310134310125
+BA	      |179.8372545406687
+GO	      |178.20496356622377
+RJ	      |164.28613622333444
+SC	      |162.26056034482798
+DF	      |160.20909808811302
+ES	      |159.08660017730503
+RS	      |158.83072493985603
+PR	      |157.7499111498259
+MG	      |155.78080584964502
+SP	      |139.50150919934995
 
 
 
