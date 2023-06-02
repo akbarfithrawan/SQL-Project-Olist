@@ -43,7 +43,7 @@ DELIMITER ',' CSV HEADER;
 
 CREATE TABLE order_items (
 	order_id varchar NOT NULL,
-	order_item_id varchar(50),
+	order_item_id int,
 	product_id varchar(50),
 	seller_id varchar(50),
 	shipping_limit_date timestamp,
