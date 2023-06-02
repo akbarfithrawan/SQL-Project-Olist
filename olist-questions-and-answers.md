@@ -118,6 +118,43 @@ AC            |81
 AP            |68
 RR            |46
 
+### What time is the most order created at?
+````sql
+WITH order_hour AS (
+	SELECT 
+		EXTRACT('hour' FROM order_purchase_timestamp) AS hour,
+		COUNT(order_id) AS total_order
+	FROM orders
+	GROUP BY hour
+)
+
+SELECT
+	CASE WHEN hour BETWEEN 6 AND 9 THEN 'Early morning'
+		WHEN hour BETWEEN 9 AND 12 THEN 'Late morning'
+		WHEN hour BETWEEN 12 AND 15 THEN 'Early afternoon'
+		WHEN hour BETWEEN 15 AND 18 THEN 'Late afternoon'
+		WHEN hour BETWEEN 18 AND 21 THEN 'Evening'
+		WHEN hour BETWEEN 21 AND 24 THEN 'Late evening'
+		WHEN hour BETWEEN 0 AND 3 THEN 'Night'
+		WHEN hour BETWEEN 3 AND 6 THEN 'Toward morning'
+		END AS hour_group,
+	SUM(total_order) AS total
+FROM order_hour
+GROUP BY hour_group
+ORDER BY total DESC;
+````
+**Results:**
+hour_group      | total
+----------------|-------
+Early afternoon | 19541
+Late morning    | 18750
+Late afternoon  | 18594
+Evening         | 18392
+Late evening    | 9939
+Early morning   | 9485
+Night           | 4346
+Toward morning  | 394
+
 ### What is frequency of orders delivered by month?
 ````sql
 SELECT 
@@ -337,39 +374,4 @@ debit_card  | 1529
 not_defined | 3
 
 
-### What time is the most order created at?
-````sql
-WITH order_hour AS (
-	SELECT 
-		EXTRACT('hour' FROM order_purchase_timestamp) AS hour,
-		COUNT(order_id) AS total_order
-	FROM orders
-	GROUP BY hour
-)
 
-SELECT
-	CASE WHEN hour BETWEEN 6 AND 9 THEN 'Early morning'
-		WHEN hour BETWEEN 9 AND 12 THEN 'Late morning'
-		WHEN hour BETWEEN 12 AND 15 THEN 'Early afternoon'
-		WHEN hour BETWEEN 15 AND 18 THEN 'Late afternoon'
-		WHEN hour BETWEEN 18 AND 21 THEN 'Evening'
-		WHEN hour BETWEEN 21 AND 24 THEN 'Late evening'
-		WHEN hour BETWEEN 0 AND 3 THEN 'Night'
-		WHEN hour BETWEEN 3 AND 6 THEN 'Toward morning'
-		END AS hour_group,
-	SUM(total_order) AS total
-FROM order_hour
-GROUP BY hour_group
-ORDER BY total DESC;
-````
-**Results:**
-hour_group      | total
-----------------|-------
-Early afternoon | 19541
-Late morning    | 18750
-Late afternoon  | 18594
-Evening         | 18392
-Late evening    | 9939
-Early morning   | 9485
-Night           | 4346
-Toward morning  | 394
