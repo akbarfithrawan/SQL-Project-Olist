@@ -1,5 +1,7 @@
 -- First, we need to create each table in the database and import csv files into the tables.
 
+/* Creating category_name_translation table */
+
 CREATE TABLE category_name_translation (
 	product_category_name varchar(50),
 	product_category_name_english varchar(50)
@@ -8,6 +10,8 @@ CREATE TABLE category_name_translation (
 COPY category_name_translation
 FROM '/Users/admin/Desktop/Portfolio/Brazilian E-Commerce Public Dataset by Olist/product_category_name_translation.csv'
 DELIMITER ',' CSV HEADER;
+
+/* Creating customers table */
 
 CREATE TABLE customers (
 	customer_id varchar(50) NOT NULL PRIMARY KEY,
@@ -21,6 +25,8 @@ COPY customers
 FROM '/Users/admin/Desktop/Portfolio/Brazilian E-Commerce Public Dataset by Olist/olist_customers_dataset.csv'
 DELIMITER ',' CSV HEADER;
 
+/* Creating geolocation table */
+
 CREATE TABLE geolocation (
 	geolocation_zip_code_prefix int,
 	geolocation_lat float,
@@ -32,6 +38,8 @@ CREATE TABLE geolocation (
 COPY geolocation
 FROM '/Users/admin/Desktop/Portfolio/Brazilian E-Commerce Public Dataset by Olist/olist_geolocation_dataset.csv'
 DELIMITER ',' CSV HEADER;
+
+/* Creating order_items table */
 
 CREATE TABLE order_items (
 	order_id varchar NOT NULL,
@@ -46,6 +54,8 @@ CREATE TABLE order_items (
 COPY order_items
 FROM '/Users/admin/Desktop/Portfolio/Brazilian E-Commerce Public Dataset by Olist/olist_order_items_dataset.csv'
 DELIMITER ',' CSV HEADER;
+
+/* Creating orders table */
 
 CREATE TABLE orders (
 	order_id varchar(100) PRIMARY KEY,
@@ -62,6 +72,8 @@ COPY orders
 FROM '/Users/admin/Desktop/Portfolio/Brazilian E-Commerce Public Dataset by Olist/olist_orders_dataset.csv'
 DELIMITER ',' CSV HEADER;
 
+/* Creating payments table */
+
 CREATE TABLE payments (
 	order_id varchar(50), 
 	payment_sequential int, 
@@ -73,6 +85,8 @@ CREATE TABLE payments (
 COPY payments
 FROM '/Users/admin/Desktop/Portfolio/Brazilian E-Commerce Public Dataset by Olist/olist_order_payments_dataset.csv'
 DELIMITER ',' CSV HEADER;
+
+/* Creating products table */
 
 CREATE TABLE products (
 	product_id varchar(50) NOT NULL PRIMARY KEY,
@@ -90,6 +104,8 @@ COPY products
 FROM '/Users/admin/Desktop/Portfolio/Brazilian E-Commerce Public Dataset by Olist/olist_products_dataset.csv'
 DELIMITER ',' CSV HEADER;
 
+/* Creating reviews table */
+
 CREATE TABLE reviews
 	 (review_id varchar (50) NOT NULL,
 	 order_id varchar (100), 
@@ -103,6 +119,8 @@ CREATE TABLE reviews
 COPY reviews
 FROM '/Users/admin/Desktop/Portfolio/Brazilian E-Commerce Public Dataset by Olist/olist_order_reviews_dataset.csv'
 DELIMITER ',' CSV HEADER;
+
+/* Creating sellers table */
 
 CREATE TABLE sellers (
 	seller_id varchar(50) NOT NULL PRIMARY KEY,
