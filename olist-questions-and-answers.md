@@ -274,6 +274,7 @@ belo horizonte |2773
 brasilia       |2131
 curitiba       |1521
 
+### What is the average customer order price by state?
 
 
 
