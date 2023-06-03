@@ -8,7 +8,8 @@
 
 **LinkedIn**: https://www.linkedin.com/in/akbar-rizky-fithrawan-04788056/
 
-An SQL analysis about each traffic crash on city streets within the City of Chicago limits and under the jurisdiction of Chicago Police Department (CPD). Data shown as is from the electronic crash reporting system (E-Crash) at CPD, excluding any personally identifiable information.
+An SQL analysis about Brazilian E-commerce Olist from 2016 to 2018. This dataset was generously provided by Olist, the largest department store in Brazilian marketplaces.
+The merchants are able to sell their products through the Olist Store and ship them directly to the customers using Olist logistics partners. After a customer purchases the product from Olist Store a seller gets notified to fulfill that order. Once the customer receives the product, or the estimated delivery date is due, the customer gets a satisfaction survey by email where he can give a note for the purchase experience and write down some comments.
 
 
 ### What are the top 10 most popular products in Olist?
